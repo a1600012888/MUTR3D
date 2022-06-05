@@ -1,5 +1,4 @@
-# MUTR3D: A Multi-camera Tracking Framework via 3D-to-2D Queries
-[Paper](https://arxiv.org/abs/2205.00613) --  [Project Page](https://tsinghua-mars-lab.github.io/MUTR3D/#)
+# MUTR3D: A Multi-camera Tracking Framework via 3D-to-2D Queries.  [Paper](https://arxiv.org/abs/2205.00613) - [Project Page](https://tsinghua-mars-lab.github.io/MUTR3D/#)
 
 
 This repo implements the paper MUTR3D: A Multi-camera Tracking Framework via 3D-to-2D Queries. We built our implementation upon MMdetection3D.
@@ -64,13 +63,16 @@ python3 tools/test.py plugin/track/configs/resnet101_fpn_3frame.py <model-path> 
 python3 tools/test.py plugin/track/configs/resnet101_fpn_3frame.py <model-path>  --eval --bbox
 ```
 
+### Visualization
+For visualization, I suggest user to generate the results json file first. I provide some sample code at `tools/nusc_visualizer.py` for visualizing the predictions, see function `_test_pred()` in `tools/nusc_visualize.py` for examples. 
 
 ## Results
 
 | Backbones  | AMOTA-val | AMOTP-val | IDS-val | Download |   
 |---|---|---| --- | --- |
 | ResNet-101 w/ FPN  | 29.5  | 1.498 | 4388 | [model](xx) \| [val results](https://drive.google.com/file/d/1LLuJm5swwqT7gXnnqKojk8ByhKR6VpAv/view?usp=sharing)  |
-| ResNet-50 w/ FPN  |   |  |  | [model](https://drive.google.com/file/d/1_BPDvDPKN7j476w2g5IMAagCW5szfF2y/view?usp=sharing) \| [val results](https://drive.google.com/file/d/1dWK19ZTig5iM-k70CT4C20ViPyegZ1C3/view?usp=sharing)  |
+| ResNet-50 w/ FPN  |  25.2 |  1.573| 3899 | [model](https://drive.google.com/file/d/1_BPDvDPKN7j476w2g5IMAagCW5szfF2y/view?usp=sharing) \| [val results](https://drive.google.com/file/d/1dWK19ZTig5iM-k70CT4C20ViPyegZ1C3/view?usp=sharing)  |
+
 
 
 ## Acknowledgment
@@ -83,3 +85,18 @@ For the implementation, we rely heavily on [MMCV](https://github.com/open-mmlab/
 1. [DETR3D: 3D Object Detection from Multi-view Images via 3D-to-2D Queries](https://tsinghua-mars-lab.github.io/DETR3D/)
 2. [FUTR3D: A Unified Sensor Fusion Framework for 3D Detection](https://tsinghua-mars-lab.github.io/FUTR3D/)
 3. For more projects on Autonomous Driving, check out our [group webpage](http://group.iiis.tsinghua.edu.cn/~marslab/#/projects). 
+
+
+## Reference
+
+
+```
+@article{zhang2022mutr3d,
+  title={MUTR3D: A Multi-camera Tracking Framework via 3D-to-2D Queries},
+  author={Zhang, Tianyuan and Chen, Xuanyao and Wang, Yue and Wang, Yilun and Zhao, Hang},
+  journal={arXiv preprint arXiv:2205.00613},
+  year={2022}
+}
+```
+
+Contact: [Tianyuan Zhang](http://tianyuanzhang.com/) at: `tianyuaz@andrew.cmu.edu` or `tianyuanzhang1998@gmail.com`
