@@ -569,7 +569,7 @@ class NuScenesTrackDataset(Dataset):
 
                 center_ = box.center.tolist()
                 # change from ground height to center height
-                center_[2] = center_[2] + box.wlh.tolist()[2]
+                # center_[2] = center_[2] + box.wlh.tolist()[2]
                 nusc_anno = dict(
                     sample_token=sample_token,
                     translation=center_,

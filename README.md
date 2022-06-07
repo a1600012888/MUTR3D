@@ -70,8 +70,8 @@ For visualization, I suggest user to generate the results json file first. I pro
 
 | Backbones  | AMOTA-val | AMOTP-val | IDS-val | Download |   
 |---|---|---| --- | --- |
-| ResNet-101 w/ FPN  | 29.5  | 1.498 | 4388 | [model](xx) \| [val results](https://drive.google.com/file/d/1LLuJm5swwqT7gXnnqKojk8ByhKR6VpAv/view?usp=sharing)  |
-| ResNet-50 w/ FPN  |  25.2 |  1.573| 3899 | [model](https://drive.google.com/file/d/1_BPDvDPKN7j476w2g5IMAagCW5szfF2y/view?usp=sharing) \| [val results](https://drive.google.com/file/d/1dWK19ZTig5iM-k70CT4C20ViPyegZ1C3/view?usp=sharing)  |
+| ResNet-101 w/ FPN  | 29.5  | 1.498 | 4388 | [model](https://drive.google.com/file/d/1MXbHWalo-zyt9TU31x-re4wOuX5G4wOH/view?usp=sharing) \| [val results](https://drive.google.com/file/d/1UB4mHkVmtfT8q1td53I0c86qU41XNwWm/view?usp=sharing)  |
+| ResNet-50 w/ FPN  |  25.2 |  1.573| 3899 | [model](https://drive.google.com/file/d/1_BPDvDPKN7j476w2g5IMAagCW5szfF2y/view?usp=sharing) \| [val results](https://drive.google.com/file/d/1HLD4ivWnmIEXJ1aG7Nk5WTmGCIrHSqy7/view?usp=sharing)  |
 
 
 
