@@ -9,7 +9,7 @@ import torch.nn as nn
 from mmdet3d.core import bbox3d2result, merge_aug_bboxes_3d
 from mmdet.models import DETECTORS
 from mmdet3d.models.detectors.mvx_two_stage import MVXTwoStageDetector
-from mmdet3d.models.utils.grid import GridMask
+from .grid_mask import GridMask
 from mmdet3d.core.bbox.coders import build_bbox_coder
 from ..structures import Instances
 from .qim import build_qim
@@ -99,7 +99,7 @@ class Detr3DCamTrackerKalmanSmoothing(MVXTwoStageDetector):
                  embed_dims=256,
                  num_query=300,
                  num_classes=7,
-                 kalman_smoothing=0.5, 
+                 kalman_smoothing=0.5,
                  bbox_coder=dict(
                     type='DETRTrack3DCoder',
                     post_center_range=[-61.2, -61.2, -10.0, 61.2, 61.2, 10.0],
@@ -245,7 +245,7 @@ class Detr3DCamTrackerKalmanSmoothing(MVXTwoStageDetector):
             kalman_model = track_instances.kalman_models[i]
 
             kalman_pred_list.append(kalman_model.get_prediction(time_delta.item()))
-        
+
         kalman_pred = bbox_to_detr3dbox(kalman_pred_list, g2l_r, l2g_t2)
         # print('kalman_pred', kalman_pred, time_delta)
         # print(kalman_pred.shape)
@@ -351,8 +351,8 @@ class Detr3DCamTrackerKalmanSmoothing(MVXTwoStageDetector):
         gt_instances.labels = gt_labels_3d
         gt_instances.obj_ids = instance_inds
         return gt_instances
-    
-    def _get_kalman_smoothing_box(self, track_instances, box_pred, 
+
+    def _get_kalman_smoothing_box(self, track_instances, box_pred,
                                   l2g_r, l2g_t, time_delta):
         """
         box_pred: [N, box_dim]
@@ -377,8 +377,8 @@ class Detr3DCamTrackerKalmanSmoothing(MVXTwoStageDetector):
                 box_state = kalman_model.get_state()
                 smoothed_box_list.append(box_state)
                 continue
-                
-            
+
+
             # write time delta
             kalman_model.get_prediction(time_delta.item())
             kalman_model.update(tmp_box[i])
@@ -392,7 +392,7 @@ class Detr3DCamTrackerKalmanSmoothing(MVXTwoStageDetector):
         detr3d_box = box_pred.new_tensor(detr3d_box)
 
         smoothed_box = torch.cat(
-            [detr3d_box, 
+            [detr3d_box,
             box_pred[..., 6:]], dim=-1,
         )
 
@@ -400,7 +400,7 @@ class Detr3DCamTrackerKalmanSmoothing(MVXTwoStageDetector):
 
         return ret_box
 
-                
+
     def _generate_empty_tracks(self):
         track_instances = Instances((1, 1))
         num_queries, dim = self.query_embedding.weight.shape  # (300, 256 * 2)
@@ -719,10 +719,10 @@ class Detr3DCamTrackerKalmanSmoothing(MVXTwoStageDetector):
 
         # Step-1 Update track instances with current prediction
         # [nb_dec, bs, num_query, xxx]
-        pred_box = output_coords[-1, 0]        
+        pred_box = output_coords[-1, 0]
 
-        #  l2g_r2, l2g_t2 is not used! 
-        smoothing_box = self._get_kalman_smoothing_box(track_instances, pred_box, 
+        #  l2g_r2, l2g_t2 is not used!
+        smoothing_box = self._get_kalman_smoothing_box(track_instances, pred_box,
                             l2g_r2, l2g_t2, time_delta)
 
         # each track will be assigned an unique global id by the track base.

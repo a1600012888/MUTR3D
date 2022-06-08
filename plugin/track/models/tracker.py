@@ -5,7 +5,7 @@ import torch.nn as nn
 from mmdet3d.core import bbox3d2result, merge_aug_bboxes_3d
 from mmdet.models import DETECTORS
 from mmdet3d.models.detectors.mvx_two_stage import MVXTwoStageDetector
-from mmdet3d.models.utils.grid import GridMask
+from .grid_mask import GridMask
 from mmdet3d.core.bbox.coders import build_bbox_coder
 from ..structures import Instances
 from .qim import build_qim
@@ -269,7 +269,7 @@ class MUTRCamTracker(MVXTwoStageDetector):
 
         # lidar feature distabled. (param points not used )
 
-        radar = None # don't use radar feature 
+        radar = None # don't use radar feature
         if radar is not None:
             radar_feats = self.radar_encoder(radar)
         else:
