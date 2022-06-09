@@ -1,4 +1,4 @@
-# MUTR3D: A Multi-camera Tracking Framework via 3D-to-2D Queries.  [Paper](https://arxiv.org/abs/2205.00613) - [Project Page](https://tsinghua-mars-lab.github.io/MUTR3D/#)
+# MUTR3D: A Multi-camera Tracking Framework via 3D-to-2D Queries.  [Paper](https://arxiv.org/abs/2205.00613) - [Project Page](https://tsinghua-mars-lab.github.io/mutr3d/)
 
 
 This repo implements the paper MUTR3D: A Multi-camera Tracking Framework via 3D-to-2D Queries. We built our implementation upon MMdetection3D.
@@ -83,9 +83,9 @@ For the implementation, we rely heavily on [MMCV](https://github.com/open-mmlab/
 
 
 ## Relevant projects 
-1. [DETR3D: 3D Object Detection from Multi-view Images via 3D-to-2D Queries](https://tsinghua-mars-lab.github.io/DETR3D/)
-2. [FUTR3D: A Unified Sensor Fusion Framework for 3D Detection](https://tsinghua-mars-lab.github.io/FUTR3D/)
-3. For more projects on Autonomous Driving, check out our [group webpage](http://group.iiis.tsinghua.edu.cn/~marslab/#/projects). 
+1. [DETR3D: 3D Object Detection from Multi-view Images via 3D-to-2D Queries](https://tsinghua-mars-lab.github.io/detr3d/)
+2. [FUTR3D: A Unified Sensor Fusion Framework for 3D Detection](https://tsinghua-mars-lab.github.io/futr3d/)
+3. For more projects on Autonomous Driving, check out our camera-centered autonomous driving projects page [webpage](https://tsinghua-mars-lab.github.io/vcad/) 
 
 
 ## Reference
