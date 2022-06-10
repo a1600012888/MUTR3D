@@ -28,6 +28,7 @@ cd mmdetection3d
 git checkout v0.13.0
 cp -r ../mmdet3d/api mmdet3d/
 cp ../mmdet3d/models/builder.py mmdet3d/models/
+cp ../mmdet3d/models/detectors/mvx_two_stage.py mmdet3d/models/detectors/mvx_two_stage.py
 
 # you can directly copy what I provided to mmdetection3d; this may remove some of the files in mmdetection3d. Or you can replace it with one file each time. 
 
