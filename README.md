@@ -26,13 +26,15 @@ e.g.
 git clone https://github.com/open-mmlab/mmdetection3d.git
 cd mmdetection3d
 git checkout v0.13.0
-cp -r ../mmdet3d/api mmdet3d/
-cp ../mmdet3d/models/builder.py mmdet3d/models/
-cp ../mmdet3d/models/detectors/mvx_two_stage.py mmdet3d/models/detectors/mvx_two_stage.py
+# cp -r ../mmdet3d/api mmdet3d/
+# cp ../mmdet3d/models/builder.py mmdet3d/models/
+# cp ../mmdet3d/models/detectors/mvx_two_stage.py mmdet3d/models/detectors/mvx_two_stage.py
 
-# you can directly copy what I provided to mmdetection3d; this may remove some of the files in mmdetection3d. Or you can replace it with one file each time. 
+# replace the mmdetection3d/mmdet3d with the mmdet3d_full
+cp -r ../mmdet3d_full ./mmdet3d
 
-cp -r ../* ./ 
+cp -r ../plugin ./ 
+cp -r ../tools ./ 
 # then install mmdetection3d following its instruction. 
 # and mmdetection3d becomes your new working directories. 
 ```
