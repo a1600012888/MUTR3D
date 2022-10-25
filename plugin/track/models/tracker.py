@@ -492,7 +492,8 @@ class MUTRCamTracker(MVXTwoStageDetector):
                 of 3D boxes. Defaults to None.
             l2g_r_mat (list[Tensor]). element shape [T, 3, 3]
             l2g_t (list[Tensor]). element shape [T, 3]
-                points @ R_Mat + T
+                normally you should call points @ R_Mat.T + T
+                here, just call points @ R_mat + T
             gt_bboxes_ignore (list[torch.Tensor], optional): Ground truth
                 2D boxes in images to be ignored. Defaults to None.
         Returns:
