@@ -282,9 +282,14 @@ class NuScenesTrackDataset(Dataset):
         l2e_r_mat = Quaternion(l2e_r).rotation_matrix
         e2g_r_mat = Quaternion(e2g_r).rotation_matrix
 
-        l2g_r_mat = l2e_r_mat @ e2g_r_mat  # [3, 3]
-        l2g_t = l2e_t @ e2g_r_mat + e2g_t  # [1, 3]
-        # points @ R.T + T
+        l2g_r_mat = l2e_r_mat.T @ e2g_r_mat.T  # [3, 3]
+        l2g_t = l2e_t @ e2g_r_mat.T + e2g_t  # [1, 3]
+        # previously, for using R and t from info[''], 
+        # you should points @ info['lidar2ego_rotation'].T + info['lidar2ego_translation']
+        # but in https://github.com/a1600012888/MUTR3D/blob/main/plugin/track/models/tracker.py#L209
+        # I am directly calling points @ R + t, rather than points @ R.T + t. 
+        # so need some process metioned two lines above. 
+        
         input_dict.update(
             dict(
                 l2g_r_mat=l2g_r_mat.astype(np.float32),
