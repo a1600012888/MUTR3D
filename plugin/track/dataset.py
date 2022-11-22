@@ -13,6 +13,8 @@ from mmdet3d.datasets.pipelines import Compose
 from torch.utils.data import Dataset
 import torch
 from pyquaternion import Quaternion
+import copy
+from typing import List, Tuple, Union
 
 
 @DATASETS.register_module()
@@ -577,18 +579,14 @@ class NuScenesTrackDataset(Dataset):
                 center_[2] = center_[2] + (box.wlh.tolist()[2] / 2.0)
                 nusc_anno = dict(
                     sample_token=sample_token,
-                    translation=center_,
-                    # translation=box.center.tolist(),
+                    translation=box.center.tolist(),
                     size=box.wlh.tolist(),
                     rotation=box.orientation.elements.tolist(),
                     velocity=box.velocity[:2].tolist(),
-                    # detection_name=name,
                     tracking_name=name,
-                    tracking_score=det['track_scores'][i].item(),
-                    tracking_id=str(det['track_ids'][i].item()),
-                    #attribute_name=attr)
-                )
-                #print(nusc_anno)
+                    attribute_name=attr,
+                    tracking_score=box.score,
+                    tracking_id=box.token,)
                 annos.append(nusc_anno)
             nusc_annos[sample_token] = annos
         nusc_submissions = {
@@ -795,6 +793,38 @@ class NuScenesTrackDataset(Dataset):
         """
         self.flag = np.zeros(len(self), dtype=np.uint8)
 
+class NuScenesTrackingBox(NuScenesBox):
+    def __init__(self,
+                 center: List[float],
+                 size: List[float],
+                 orientation: Quaternion,
+                 label: int = np.nan,
+                 score: float = np.nan,
+                 velocity: Tuple = (np.nan, np.nan, np.nan),
+                 name: str = None,
+                 token: str = None,
+                 ):
+        """
+        :param center: Center of box given as x, y, z.
+        :param size: Size of box in width, length, height.
+        :param orientation: Box orientation.
+        :param label: Integer label, optional.
+        :param score: Classification score, optional.
+        :param velocity: Box velocity in x, y, z direction.
+        :param name: Box name, optional. Can be used e.g. for denote category name.
+        :param token: Unique string identifier from DB.
+        """
+        super(NuScenesTrackingBox, self).__init__(center, size, orientation, label,
+                                                     score, velocity, name, token)
+    
+    def rotate(self, quaternion: Quaternion) -> None:
+        self.center = np.dot(quaternion.rotation_matrix, self.center)
+        self.orientation = quaternion * self.orientation
+        self.velocity = np.dot(quaternion.rotation_matrix, self.velocity)
+    
+    def copy(self) -> 'NuScenesTrackingBox':
+        return copy.deepcopy(self)
+
 
 def output_to_nusc_box(detection):
     """Convert the output to the box class in the nuScenes.
@@ -805,13 +835,23 @@ def output_to_nusc_box(detection):
             - boxes_3d (:obj:`BaseInstance3DBoxes`): Detection bbox.
             - scores_3d (torch.Tensor): Detection scores.
             - labels_3d (torch.Tensor): Predicted box labels.
+        
+        tracking (bool): if convert for tracking evaluation
 
     Returns:
-        list[:obj:`NuScenesBox`]: List of standard NuScenesBoxes.
+        list[:obj:`NuScenesBox`]: List of NuScenesTrackingBoxes.
     """
     box3d = detection['boxes_3d']
     scores = detection['scores_3d'].numpy()
+    # overwrite the scores with the tracking scores
+    if 'track_scores' in detection.keys() and detection['track_scores'] is not None:
+        scores = detection['track_scores'].numpy()
     labels = detection['labels_3d'].numpy()
+
+    if 'track_ids' in detection.keys() and detection['track_ids'] is not None:
+        track_ids = detection['track_ids']
+    else:
+        track_ids = [None for _ in range(len(box3d))]
 
     box_gravity_center = box3d.gravity_center.numpy()
     box_dims = box3d.dims.numpy()
@@ -828,13 +868,14 @@ def output_to_nusc_box(detection):
         # velo_ori = box3d[i, 6]
         # velocity = (
         # velo_val * np.cos(velo_ori), velo_val * np.sin(velo_ori), 0.0)
-        box = NuScenesBox(
+        box = NuScenesTrackingBox(
             box_gravity_center[i],
             box_dims[i],
             quat,
             label=labels[i],
             score=scores[i],
-            velocity=velocity)
+            velocity=velocity,
+            token=str(track_ids[i]))
         box_list.append(box)
     return box_list
 
